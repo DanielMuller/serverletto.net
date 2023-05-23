@@ -1,0 +1,22 @@
+Type: AWS::S3::BucketPolicy
+Properties:
+  Bucket:
+    Ref: HostingBucket
+  PolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Action:
+          - 's3:GetObject'
+        Effect: Allow
+        Resource:
+          Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: HostingBucket
+              - '/*'
+        Principal:
+          Service: 'cloudfront.amazonaws.com'
+        Condition:
+          StringEquals:
+            AWS:SourceArn:
+              Fn::Sub: 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${HostingDistribution}'

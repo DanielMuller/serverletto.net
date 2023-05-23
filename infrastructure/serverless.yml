@@ -1,0 +1,47 @@
+service: serverletto
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3.30.1'
+configValidationMode: warn
+
+custom:
+  stage: ${file(config/stages/${self:provider.stage}.yml)}
+  # Add custom variables here. You can re-use variables defined in the stage yml
+  # customStageVar: ${self:custom.stage.customStageVar}
+  esbuild:
+    external:
+      - sharp
+    packager: 'npm'
+    sourcemap: true
+    bundle: true
+    minify: true
+    keepNames: true
+    exclude:
+      - '@aws-sdk'
+  hostingBucketName: '${self:service}-hosting-${self:provider.stage}'
+plugins:
+  - serverless-esbuild
+  - serverless-deployment-bucket
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, self:custom.stage.region}
+  profile: ${self:custom.stage.profile}
+  memorySize: ${self:custom.stage.lambda.memorySize, '128'}
+  timeout: ${self:custom.stage.lambda.timeout, '10'}
+  logRetentionInDays: ${self:custom.stage.lambda.logRetention, 1}
+  iam: ${file(serverless.iam.yml)}
+
+  deploymentBucket:
+    name: com.serverless.${aws:accountId}.${aws:region}.deploys
+    blockPublicAccess: true
+    skipPolicySetup: true
+    serverSideEncryption: AES256
+#functions: ${file(helpers/main.js):getFunctions}
+resources:
+  Resources: ${file(helpers/main.js):getResources}
+#  Outputs: ${file(helpers/main.js):getOutputs}
