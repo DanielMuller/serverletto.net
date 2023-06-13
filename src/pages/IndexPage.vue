@@ -1,6 +1,6 @@
 <template lang="pug">
 q-page.column.items-center.justify-evenly
-  h1 Upcoming Events
+  h1 Past Events
   .q-gutter-md
     q-card.q-pa-md(style="width:80vw;max-width:800px")
       q-card-section(horizontal)
@@ -9,9 +9,6 @@ q-page.column.items-center.justify-evenly
         q-card-section.q-pt-xs
           .text-overline 7th June 2023
           .text-h5.q-mt-sm.q-mb-xs Paris
-          .text-body2.text-grey-9
-            div Come and say Hello at ServerlessDays in Paris.
-            q-btn.q-mt-md(glossy rounded color="primary" icon="open_in_new" label="Serverless Days Paris" href="https://paris.serverlessdays.io/")
 
     q-card.q-pa-md(style="width:80vw;max-width:800px")
       q-card-section(horizontal)
@@ -20,9 +17,6 @@ q-page.column.items-center.justify-evenly
         q-card-section.q-pt-xs
           .text-overline 7th &amp; 8th June 2023
           .text-h5.q-mt-sm.q-mb-xs Washington DC
-          .text-body2.text-grey-9
-            div Come and say Hello at AWS Summit in Washington DC on 7th and 8th June 2023.
-            q-btn.q-mt-md(glossy rounded color="primary" icon="open_in_new" label="AWS Summit" href="https://aws.amazon.com/events/summits/washington-dc/")
 
   polaroid-image(image="/serverlessguru-logo.svg")
     p From ServerlessGuru
